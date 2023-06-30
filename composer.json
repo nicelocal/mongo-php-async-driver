@@ -1,0 +1,19 @@
+{
+    "name": "nicelocal/mongo-php-async-rs-driver",
+    "type": "library",
+    "require": {
+        "revolt/event-loop": "^1.0",
+        "amphp/amp": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Nicelocal\\Mongo\\": "lib/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Daniil Gentili",
+            "email": "daniil@daniil.it"
+        }
+    ]
+}

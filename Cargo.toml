@@ -1,0 +1,21 @@
+[package]
+name = "mongo-php-async-driver"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+ext-php-rs = { git = "https://github.com/nicelocal/ext-php-rs", features = ["anyhow"] }
+libc = "*"
+tokio = { version = "1", features = ["full"] }
+tokio-pipe = "*"
+once_cell = "*"
+lazy_static = "1.4.0"
+mongodb = "2.5.0"
+anyhow = "*"
+indexmap = "*"
+
+[profile.release]
+strip = "debuginfo"
