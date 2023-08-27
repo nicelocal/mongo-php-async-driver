@@ -1,23 +1,23 @@
 use std::str::FromStr;
 
-use ext_php_rs::convert::FromZval;
-use ext_php_rs::convert::IntoZval;
-use ext_php_rs::error::Result as PhpExtResult;
+use nicelocal_ext_php_rs::convert::FromZval;
+use nicelocal_ext_php_rs::convert::IntoZval;
+use nicelocal_ext_php_rs::error::Result as PhpExtResult;
 
 
-use ext_php_rs::flags::DataType;
+use nicelocal_ext_php_rs::flags::DataType;
 
 
 
-use ext_php_rs::prelude::PhpException;
-use ext_php_rs::prelude::PhpResult;
+use nicelocal_ext_php_rs::prelude::PhpException;
+use nicelocal_ext_php_rs::prelude::PhpResult;
 
 
-use ext_php_rs::types::ZendHashTable;
+use nicelocal_ext_php_rs::types::ZendHashTable;
 
-use ext_php_rs::types::ZendStr;
-use ext_php_rs::types::Zval;
-use ext_php_rs::zend::ClassEntry;
+use nicelocal_ext_php_rs::types::ZendStr;
+use nicelocal_ext_php_rs::types::Zval;
+use nicelocal_ext_php_rs::zend::ClassEntry;
 
 use mongodb::bson::Document;
 use mongodb::bson::Bson;

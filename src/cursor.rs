@@ -1,7 +1,7 @@
 
-use ext_php_rs::zend::{RUNTIME};
-use ext_php_rs::{prelude::*};
+use nicelocal_ext_php_rs::{prelude::*};
 use mongodb::bson::{RawDocumentBuf};
+use php_tokio::{RUNTIME, php_async_impl};
 use crate::conversion::{PhpRawDocument};
 use mongodb::{Cursor};
 use tokio::sync::mpsc::{self, Receiver as TokioReceiver};
@@ -46,7 +46,7 @@ impl MongoCursor {
     }
 }
 
-#[php_impl]
+#[php_async_impl]
 impl MongoCursor {
     pub fn current(&mut self) -> Option<&PhpRawDocument> {
         (&self.buf).as_ref()

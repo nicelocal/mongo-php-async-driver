@@ -13,9 +13,9 @@ final class Client {
             return;
         }
 
-        $f = fopen("php://fd/".\tokio_init(), 'r+');
+        $f = fopen("php://fd/".\mongo_async_init(), 'r+');
         stream_set_blocking($f, false);
-        self::$id = EventLoop::onReadable($f, fn () => \tokio_wakeup());
+        self::$id = EventLoop::onReadable($f, fn () => \mongo_async_wakeup());
     }
 
     public static function reference(): void{

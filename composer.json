@@ -15,5 +15,8 @@
             "name": "Daniil Gentili",
             "email": "daniil@daniil.it"
         }
-    ]
+    ],
+    "require-dev": {
+        "mongodb/mongodb": "^1.15"
+    }
 }

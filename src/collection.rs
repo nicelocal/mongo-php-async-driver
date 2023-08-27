@@ -1,8 +1,9 @@
 
-use ext_php_rs::{prelude::*};
+use nicelocal_ext_php_rs::{prelude::*};
 use mongodb::Collection;
 use mongodb::bson::{RawDocumentBuf};
 use mongodb::options::FindOptions;
+use php_tokio::php_async_impl;
 
 use crate::conversion::{PhpRawDocument, PhpDocument};
 use crate::cursor::MongoCursor;
@@ -17,7 +18,7 @@ pub struct MongoFindOptions {
     options: FindOptions
 }
 
-#[php_impl]
+#[php_async_impl]
 impl MongoFindOptions {
     pub fn __construct(
         allow_disk_use: Option<bool>,
@@ -75,7 +76,7 @@ pub struct MongoCollection {
     pub collection: Collection<RawDocumentBuf>,
 }
 
-#[php_impl]
+#[php_async_impl]
 impl MongoCollection {
     pub async fn find(&self, filter: Option<PhpDocument>, options: Option<&MongoFindOptions>) -> anyhow::Result<MongoCursor> {
         Ok(MongoCursor::new(

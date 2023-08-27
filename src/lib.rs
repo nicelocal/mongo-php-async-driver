@@ -19,20 +19,20 @@ use crate::bson::MongoObjectId;
 use conversion::PhpDocument;
 use conversion::PhpRawDocument;
 
-use ext_php_rs::types::ZendClassObject;
+use nicelocal_ext_php_rs::types::ZendClassObject;
 
-use ext_php_rs::zend::EventLoop;
+use php_tokio::EventLoop;
 
-use ext_php_rs::zend::{ce};
-use ext_php_rs::{prelude::*};
+use nicelocal_ext_php_rs::zend::{ce};
+use nicelocal_ext_php_rs::{prelude::*};
 
 #[php_function]
-pub fn tokio_init() -> PhpResult<u64>{
+pub fn mongo_async_init() -> PhpResult<u64>{
     EventLoop::init()
 }
 
 #[php_function]
-pub fn tokio_wakeup() -> PhpResult<()> {
+pub fn mongo_async_wakeup() -> PhpResult<()> {
     EventLoop::wakeup()
 }
 

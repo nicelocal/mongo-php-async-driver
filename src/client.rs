@@ -1,9 +1,10 @@
-use ext_php_rs::types::{ZendClassObject};
-use ext_php_rs::{prelude::*};
+use nicelocal_ext_php_rs::types::{ZendClassObject};
+use nicelocal_ext_php_rs::{prelude::*};
 
 use anyhow::{Context};
 
 use mongodb::{Client, options::ClientOptions};
+use php_tokio::php_async_impl;
 
 use crate::database;
 
@@ -12,7 +13,7 @@ pub struct MongoClientOptions {
     opts: ClientOptions
 }
 
-#[php_impl]
+#[php_async_impl]
 impl MongoClientOptions {
     pub async fn parse(s: &str) -> anyhow::Result<Self> {
         Ok(Self{ opts: ClientOptions::parse(s).await.context("Could not parse client options")? })
@@ -24,7 +25,7 @@ pub struct MongoClient {
     client: Client
 }
 
-#[php_impl]
+#[php_async_impl]
 impl MongoClient {
     pub fn withOptions(opts: &ZendClassObject<MongoClientOptions>) -> anyhow::Result<Self> {
         Ok(Self {

@@ -1,5 +1,6 @@
-use ext_php_rs::prelude::*;
+use nicelocal_ext_php_rs::prelude::*;
 use mongodb::Database;
+use php_tokio::php_async_impl;
 
 use crate::collection;
 
@@ -9,7 +10,7 @@ pub struct MongoDatabase {
     pub database: Database
 }
 
-#[php_impl]
+#[php_async_impl]
 impl MongoDatabase {
     pub fn name(&self) -> &str {
         self.database.name()
