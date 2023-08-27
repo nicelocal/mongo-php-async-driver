@@ -6,7 +6,7 @@ It integrates the [PHP revolt event loop](https://revolt.run) and rust's tokio e
 
 Currently a work-in-progress, more methods will be added soon!
 
-Written by Daniil Gentili ([@danog](https://github.com/danog)).
+Written by Daniil Gentili ([@danog](https://github.com/danog)), powered by [danog/php-tokio](https://github.com/danog/php-tokio), [nicelocal/ext-php-rs](https://github.com/Nicelocal/ext-php-rs/) and the official MongoDB Rust client.
 
 ## Example
 
