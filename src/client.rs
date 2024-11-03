@@ -1,5 +1,5 @@
-use nicelocal_ext_php_rs::types::{ZendClassObject};
-use nicelocal_ext_php_rs::{prelude::*};
+use ext_php_rs::types::{ZendClassObject};
+use ext_php_rs::{prelude::*};
 
 use anyhow::{Context};
 

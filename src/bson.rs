@@ -2,9 +2,9 @@ use std::str::FromStr;
 
 use anyhow::Context;
 
-use nicelocal_ext_php_rs::php_class;
-use nicelocal_ext_php_rs::php_impl;
-use nicelocal_ext_php_rs::prelude::PhpResult;
+use ext_php_rs::php_class;
+use ext_php_rs::php_impl;
+use ext_php_rs::prelude::PhpResult;
 
 use mongodb::bson::oid::ObjectId;
 

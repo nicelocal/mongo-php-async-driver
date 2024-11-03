@@ -1,23 +1,24 @@
 use std::str::FromStr;
 
-use nicelocal_ext_php_rs::convert::FromZval;
-use nicelocal_ext_php_rs::convert::IntoZval;
-use nicelocal_ext_php_rs::error::Result as PhpExtResult;
+use ext_php_rs::convert::FromZval;
+use ext_php_rs::convert::IntoZval;
+use ext_php_rs::error::Result as PhpExtResult;
 
 
-use nicelocal_ext_php_rs::flags::DataType;
+use ext_php_rs::flags::DataType;
 
 
 
-use nicelocal_ext_php_rs::prelude::PhpException;
-use nicelocal_ext_php_rs::prelude::PhpResult;
+use ext_php_rs::prelude::PhpException;
+use ext_php_rs::prelude::PhpResult;
 
 
-use nicelocal_ext_php_rs::types::ZendHashTable;
+use ext_php_rs::types::ArrayKey;
+use ext_php_rs::types::ZendHashTable;
 
-use nicelocal_ext_php_rs::types::ZendStr;
-use nicelocal_ext_php_rs::types::Zval;
-use nicelocal_ext_php_rs::zend::ClassEntry;
+use ext_php_rs::types::ZendStr;
+use ext_php_rs::types::Zval;
+use ext_php_rs::zend::ClassEntry;
 
 use mongodb::bson::Document;
 use mongodb::bson::Bson;
@@ -43,14 +44,20 @@ pub fn zval_to_bson(zval: &Zval) -> PhpResult<Bson> {
         DataType::Array => {
             let arr = zval.array().unwrap();
             let mut expected_idx = 0;
-            for (idx, key, _) in arr.iter() {
-                if expected_idx != idx || key.is_some() {
-                    return Ok(Bson::Document(zval_to_document(zval)?));
+            for (key, _) in arr.iter() {
+                match key {
+                    ArrayKey::Long(idx) => {
+                        if idx == expected_idx {
+                            expected_idx += 1;
+                            continue;
+                        }
+                    },
+                    _ => ()
                 }
-                expected_idx += 1;
+                return Ok(Bson::Document(zval_to_document(zval)?));
             }
             let mut barr = Vec::with_capacity(arr.len());
-            for (_, _, val) in arr.iter() {
+            for (_, val) in arr.iter() {
                 barr.push(zval_to_bson(val)?)
             }
             Ok(Bson::Array(barr))
@@ -79,10 +86,10 @@ pub fn zval_to_document(zval: &Zval) -> PhpResult<Document> {
     match zval.get_type() {
         DataType::Array => {
             let zval = zval.array().unwrap();
-            for (idx, key, val) in zval.iter() {
+            for (key, val) in zval.iter() {
                 match key {
-                    None => return Err(format!("Unexpected integer key {}", idx).into()),
-                    Some(k) => doc.insert(k, zval_to_bson(val)?)
+                    ArrayKey::Long(idx) => return Err(format!("Unexpected integer key {}", idx).into()),
+                    ArrayKey::String(k) => doc.insert(k, zval_to_bson(val)?)
                 };
             }
             Ok(doc)

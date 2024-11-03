@@ -1,5 +1,5 @@
 
-use nicelocal_ext_php_rs::{prelude::*};
+use ext_php_rs::{prelude::*};
 use mongodb::Collection;
 use mongodb::bson::{RawDocumentBuf};
 use mongodb::options::FindOptions;
