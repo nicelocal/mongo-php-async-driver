@@ -1,7 +1,7 @@
 
 use ext_php_rs::{prelude::*};
 use mongodb::Collection;
-use mongodb::bson::{RawDocumentBuf};
+use mongodb::bson::{doc, RawDocumentBuf};
 use mongodb::options::FindOptions;
 use php_tokio::php_async_impl;
 
@@ -24,7 +24,7 @@ impl MongoFindOptions {
         allow_disk_use: Option<bool>,
         allow_partial_results: Option<bool>,
         batch_size: Option<u32>,
-        comment: Option<String>,
+        _comment: Option<String>,
         _comment_bson: Option<PhpDocument>,
         _cursor_type: Option<u8>,
         limit: Option<i64>,
@@ -46,8 +46,6 @@ impl MongoFindOptions {
                 .allow_disk_use(allow_disk_use)
                 .allow_partial_results(allow_partial_results)
                 .batch_size(batch_size)
-                .comment(comment)
-                .comment_bson(None) //comment_bson
                 .cursor_type(None) //cursor_type,
                 .hint(None)
                 .limit(limit)
@@ -82,11 +80,16 @@ impl MongoCollection {
         Ok(MongoCursor::new(
             this.collection
                 .find(
-                    filter.and_then(|v|Some(v.0)),
+                    match filter {
+                        None => { doc! {}},
+                        Some(v) => v.into()
+                    }
+                )
+                .with_options(
                     match options {
                         None => None,
                         Some(v) => Some(v.options.clone())
-                    },
+                    }
                 )
                 .await
                 .context("find failed")?,
@@ -95,8 +98,10 @@ impl MongoCollection {
     pub async fn find_one(&self, filter: Option<PhpDocument>) -> anyhow::Result<Option<PhpRawDocument>> {
         Ok(match this.collection
             .find_one(
-                filter.and_then(|v|Some(v.0)),
-                None,
+                match filter {
+                    None => { doc! {}},
+                    Some(v) => v.into()
+                }
             )
             .await
             .context("find failed")?
